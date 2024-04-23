@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -110,6 +111,26 @@ public class PDFSplitter {
             Splitter PDFSplitter = new Splitter();
             List<PDDocument> allPages = PDFSplitter.split(sourcePDF);
             PDFTextStripper reader = new PDFTextStripper();
+            int pageNum = 0;
+            int randomDisplayPage = 0;
+            if (this.showPDFAsText) {
+                // select a random page number as output:
+                randomDisplayPage = ThreadLocalRandom.current().nextInt(0, allPages.size());
+            }
+
+            for (PDDocument thisPage : allPages) {
+                ComponentPage p = new ComponentPage(thisPage, reader.getText(thisPage), pageNum);
+                pages.add(p);
+
+                if (this.showPDFAsText) {
+                    if (pageNum == randomDisplayPage) {
+                        PDFBatchSplitter.mw.updatePDFViewer(p.getPageContents());
+                    }
+                }
+                pageNum++;
+            }
+
+            /*
             for (int pageNum = 0; pageNum < sourcePDF.getNumberOfPages(); pageNum++) {
                 PDDocument thisPage = allPages.get(pageNum);
                 ComponentPage p = new ComponentPage(allPages.get(pageNum), reader.getText(thisPage), pageNum);
@@ -121,6 +142,7 @@ public class PDFSplitter {
                     }
                 }
             }
+             */
         } catch (IOException ex) {
             System.out.println("Error loading PDF: " + ex.getLocalizedMessage());
             goodRead = false;

@@ -26,28 +26,14 @@ import java.util.regex.Pattern;
  */
 public class SearchTerm {
 
-    public static final int TYPE_NUMERICAL = 1;
-    public static final int TYPE_ALPHANUMERICAL = 2;
-    public static final int TYPE_ALPHA = 3;
-
-    private int type;
     private String label;
     private String regex;
     private int outputGroup;
 
-    public SearchTerm(int t, String p, String r, int o) {
-        this.type = t;
+    public SearchTerm(String p, String r, int o) {
         this.label = p;
         this.regex = r;
         this.outputGroup = o;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public String getLabel() {
