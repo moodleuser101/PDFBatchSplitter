@@ -130,19 +130,6 @@ public class PDFSplitter {
                 pageNum++;
             }
 
-            /*
-            for (int pageNum = 0; pageNum < sourcePDF.getNumberOfPages(); pageNum++) {
-                PDDocument thisPage = allPages.get(pageNum);
-                ComponentPage p = new ComponentPage(allPages.get(pageNum), reader.getText(thisPage), pageNum);
-                pages.add(p);
-
-                if (this.showPDFAsText) {
-                    if (pageNum == 3) {
-                        System.out.println(p.getPageContents());
-                    }
-                }
-            }
-             */
         } catch (IOException ex) {
             System.out.println("Error loading PDF: " + ex.getLocalizedMessage());
             goodRead = false;
